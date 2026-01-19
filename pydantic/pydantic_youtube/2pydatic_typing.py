@@ -17,7 +17,7 @@ try:
 except ValueError as e:
   print(e)
 
-# print(int("10") + int("20"))
+
 
 # STATIC TYPE CHEKING
 class Book(BaseModel):

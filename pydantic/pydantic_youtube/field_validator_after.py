@@ -50,7 +50,7 @@ print(lang1)
 class InventoryItem(BaseModel):
   stock_level:int
 
-  @field_validator("stock_level")
+  @field_validator("stock_level",mode='after')
   @classmethod
   def check_stock_level(cls,v:int) -> int:
     if v<0:
@@ -65,3 +65,56 @@ try:
   print(result2.stock_level)
 except ValidationError as e:
   print(e)
+
+
+## 3------------
+
+# practise questions
+# Question 1 (Easy)
+
+# Create a model Product:
+# price: float
+# after validator:
+# price must be > 0
+# 👉 Which mode?
+# 👉 Why after, not before?
+
+class Product(BaseModel):
+  price : float = Field(le=1000,description="enter the price")
+
+  @field_validator("price",mode="after")
+  @classmethod
+  def cheking_price(cls,v:float) -> float:
+    if v<0:
+      raise ValueError("price should not be 0")
+    return v
+
+anss1 = Product(price=10)
+print(anss1.price)
+
+try:
+  anss2 = Product(price=-200)
+  print(anss2.price)
+except ValidationError as e:
+  print(e)
+
+
+
+# PRACTISE
+# 🟡 Question 2 (Medium)
+# User input:
+# Product(price="99.99")
+# Explain step-by-step:
+# 1️⃣ Type conversion
+# 2️⃣ Validator run
+# 3️⃣ Final value
+
+# 🔴 Question 3 (Thinking)
+# If you want:
+# remove currency symbol ("$100")
+# then check price > 0
+# ❓ Which validators will you use?
+# before?
+# after?
+# or both?
+# Explain in words (no code needed).
